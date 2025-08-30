@@ -200,6 +200,18 @@ make format
 | **🧰 Development** | clang-format, clang-tidy, LLVM | Code quality and analysis |
 | **🔄 CI/CD** | GitHub Actions | Automated testing and validation |
 
+## 📜 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+### What this means:
+- ✅ **Free to use** - Use this code for learning, personal projects, or commercial use
+- ✅ **Free to modify** - Change, improve, or adapt the code as needed
+- ✅ **Free to distribute** - Share your modifications with others
+- ✅ **No warranty** - Code is provided "as-is" for educational purposes
+
+**Perfect for learning!** The MIT license encourages experimentation and sharing of knowledge.
+
 ---
 
 <div align="center">

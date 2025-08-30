@@ -18,6 +18,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
+    - name: Cache APT packages
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/ci.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-
+    
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -37,15 +45,45 @@ jobs:
           cmake \
           git
     
+    - name: Cache Raylib build
+      id: cache-raylib
+      uses: actions/cache@v4
+      with:
+        path: |
+          /usr/local/include/raylib.h
+          /usr/local/include/raymath.h
+          /usr/local/include/rlgl.h
+          /usr/local/lib/libraylib.a
+          /usr/local/lib/pkgconfig/raylib.pc
+        key: ${{ runner.os }}-raylib-5.5-${{ hashFiles('.github/workflows/ci.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-raylib-5.5-
+          ${{ runner.os }}-raylib-
+    
     - name: Build and install Raylib
+      if: steps.cache-raylib.outputs.cache-hit != 'true'
       run: |
-        git clone https://github.com/raysan5/raylib.git
+        git clone --depth 1 --branch 5.5 https://github.com/raysan5/raylib.git
         cd raylib
         mkdir build && cd build
         cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release ..
         make -j$(nproc)
         sudo make install
         sudo ldconfig
+    
+    - name: Update library cache (if Raylib was cached)
+      if: steps.cache-raylib.outputs.cache-hit == 'true'
+      run: sudo ldconfig
+    
+    - name: Cache build artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          src/*.o
+          tower_defense
+        key: ${{ runner.os }}-build-${{ hashFiles('src/*.c', 'src/*.h', 'Makefile') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
     
     - name: Check code formatting
       run: |
