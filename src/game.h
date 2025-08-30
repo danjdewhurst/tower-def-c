@@ -46,6 +46,10 @@ typedef struct {
     int lives;
     int wave;
     float spawn_timer;
+    Sound shoot_sound;
+    Sound hit_sound;
+    Sound place_sound;
+    Sound enemy_death_sound;
 } GameState;
 
 void InitGame(void);

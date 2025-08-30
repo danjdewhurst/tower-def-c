@@ -17,6 +17,7 @@ A basic tower defense game written in C using the Raylib graphics library, featu
 - **⚡ Automatic targeting** - Towers track and shoot at enemies
 - **💗 Health & damage system** - Visual health bars and combat mechanics
 - **💰 Economy gameplay** - Money management and resource allocation
+- **🔊 Audio feedback** - Dynamic sound effects for game events
 
 ### 🛠️ Development Features
 - **📊 Professional code quality tools** (formatting, linting, static analysis)
@@ -195,7 +196,7 @@ make format
 
 | Category | Tools | Purpose |
 |----------|--------|---------|
-| **🏃 Runtime** | Raylib 5.5+, Math library | Graphics, input, game functionality |
+| **🏃 Runtime** | Raylib 5.5+, Math library | Graphics, input, audio, game functionality |
 | **🔨 Build** | GCC/Clang, Make | Compilation and linking |
 | **🧰 Development** | clang-format, clang-tidy, LLVM | Code quality and analysis |
 | **🔄 CI/CD** | GitHub Actions | Automated testing and validation |

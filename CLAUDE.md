@@ -50,6 +50,7 @@ GameState {
     Tower towers[MAX_TOWERS];          // 20 slots  
     Projectile projectiles[MAX_PROJECTILES]; // 100 slots
     // + game metadata (money, lives, wave, path)
+    // + audio resources (shoot_sound, hit_sound, place_sound, enemy_death_sound)
 }
 ```
 
@@ -75,6 +76,12 @@ GameState {
 - No spatial partitioning - O(n²) collision checks
 - Projectiles check distance to all active enemies each frame
 
+**Audio System**: Procedural sound generation
+- Audio initialized/cleaned up in main loop lifecycle
+- Sounds generated procedurally using sine waves at startup
+- Four core sound effects: tower shooting, enemy hits, enemy deaths, tower placement
+- No external sound files - all audio generated in-memory
+
 ## Development Environment
 
 ### Code Standards
@@ -84,7 +91,7 @@ GameState {
 - **Platform**: macOS with Homebrew dependencies, Linux compatible
 
 ### Dependencies
-- **Raylib 5.5+**: Graphics, input, window management
+- **Raylib 5.5+**: Graphics, input, window management, audio
 - **Math library**: Standard C math functions
 - **Build Tools**: clang-format, clang-tidy, LLVM static analyzer
 

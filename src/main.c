@@ -7,6 +7,7 @@
 int main(void) {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tower Defense");
     SetTargetFPS(60);
+    InitAudioDevice();
 
     InitGame();
 
@@ -20,6 +21,7 @@ int main(void) {
     }
 
     CleanupGame();
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;

@@ -1,5 +1,6 @@
 #include "game.h"
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 
 static GameState game;
@@ -30,6 +31,65 @@ void InitGame(void) {
     game.lives = 20;
     game.wave = 1;
     game.spawn_timer = 0;
+
+    Wave shoot_wave = {0};
+    shoot_wave.frameCount = 1000;
+    shoot_wave.sampleRate = 22050;
+    shoot_wave.sampleSize = 16;
+    shoot_wave.channels = 1;
+    shoot_wave.data =
+        RL_CALLOC(shoot_wave.frameCount * shoot_wave.channels, sizeof(short));
+    for(unsigned int i = 0; i < shoot_wave.frameCount; i++) {
+        ((short *) shoot_wave.data)[i] =
+            (short) (sin(2 * PI * 440 * i / shoot_wave.sampleRate) * 0.3 * 32767 *
+                     exp(-5.0 * i / shoot_wave.frameCount));
+    }
+    game.shoot_sound = LoadSoundFromWave(shoot_wave);
+    UnloadWave(shoot_wave);
+
+    Wave hit_wave = {0};
+    hit_wave.frameCount = 800;
+    hit_wave.sampleRate = 22050;
+    hit_wave.sampleSize = 16;
+    hit_wave.channels = 1;
+    hit_wave.data = RL_CALLOC(hit_wave.frameCount * hit_wave.channels, sizeof(short));
+    for(unsigned int i = 0; i < hit_wave.frameCount; i++) {
+        ((short *) hit_wave.data)[i] =
+            (short) (sin(2 * PI * 220 * i / hit_wave.sampleRate) * 0.4 * 32767 *
+                     exp(-3.0 * i / hit_wave.frameCount));
+    }
+    game.hit_sound = LoadSoundFromWave(hit_wave);
+    UnloadWave(hit_wave);
+
+    Wave place_wave = {0};
+    place_wave.frameCount = 1200;
+    place_wave.sampleRate = 22050;
+    place_wave.sampleSize = 16;
+    place_wave.channels = 1;
+    place_wave.data =
+        RL_CALLOC(place_wave.frameCount * place_wave.channels, sizeof(short));
+    for(unsigned int i = 0; i < place_wave.frameCount; i++) {
+        ((short *) place_wave.data)[i] =
+            (short) (sin(2 * PI * 330 * i / place_wave.sampleRate) * 0.2 * 32767);
+    }
+    game.place_sound = LoadSoundFromWave(place_wave);
+    UnloadWave(place_wave);
+
+    Wave death_wave = {0};
+    death_wave.frameCount = 1500;
+    death_wave.sampleRate = 22050;
+    death_wave.sampleSize = 16;
+    death_wave.channels = 1;
+    death_wave.data =
+        RL_CALLOC(death_wave.frameCount * death_wave.channels, sizeof(short));
+    for(unsigned int i = 0; i < death_wave.frameCount; i++) {
+        float freq = 110 - 50.0 * i / death_wave.frameCount;
+        ((short *) death_wave.data)[i] =
+            (short) (sin(2 * PI * freq * i / death_wave.sampleRate) * 0.3 * 32767 *
+                     exp(-2.0 * i / death_wave.frameCount));
+    }
+    game.enemy_death_sound = LoadSoundFromWave(death_wave);
+    UnloadWave(death_wave);
 }
 
 static void SpawnEnemy(void) {
@@ -79,6 +139,7 @@ static void UpdateEnemies(void) {
         if(enemy->health <= 0) {
             game.money += 10;
             enemy->active = false;
+            PlaySound(game.enemy_death_sound);
         }
     }
 }
@@ -128,6 +189,7 @@ static void UpdateTowers(void) {
                     game.projectiles[k].target_enemy = closest_enemy;
                     game.projectiles[k].active = true;
                     tower->last_shot = 0;
+                    PlaySound(game.shoot_sound);
                     break;
                 }
             }
@@ -159,6 +221,7 @@ static void UpdateProjectiles(void) {
             if(Vector2Distance(proj->position, game.enemies[j].position) < 15) {
                 game.enemies[j].health -= proj->damage;
                 proj->active = false;
+                PlaySound(game.hit_sound);
                 break;
             }
         }
@@ -201,6 +264,7 @@ void UpdateGame(void) {
                     game.towers[i].active = true;
                     game.towers[i].color = BLUE;
                     game.money -= 50;
+                    PlaySound(game.place_sound);
                     break;
                 }
             }
@@ -278,4 +342,9 @@ void DrawGame(void) {
     DrawText("Left click to place tower ($50)", 10, 750, 16, WHITE);
 }
 
-void CleanupGame(void) {}
+void CleanupGame(void) {
+    UnloadSound(game.shoot_sound);
+    UnloadSound(game.hit_sound);
+    UnloadSound(game.place_sound);
+    UnloadSound(game.enemy_death_sound);
+}
