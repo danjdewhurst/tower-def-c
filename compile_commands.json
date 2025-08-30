@@ -1,0 +1,12 @@
+[
+  {
+    "directory": "/Users/dan/Projects/tower-def-c",
+    "command": "gcc -Wall -Wextra -std=c99 -O2 -I/opt/homebrew/include -c src/main.c -o src/main.o",
+    "file": "src/main.c"
+  },
+  {
+    "directory": "/Users/dan/Projects/tower-def-c",
+    "command": "gcc -Wall -Wextra -std=c99 -O2 -I/opt/homebrew/include -c src/game.c -o src/game.o",
+    "file": "src/game.c"
+  }
+]

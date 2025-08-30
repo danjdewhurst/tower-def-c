@@ -22,4 +22,22 @@ clean:
 run: $(TARGET)
 	./$(TARGET)
 
-.PHONY: all clean run
+format:
+	clang-format -i $(SOURCES) src/*.h
+
+format-check:
+	clang-format --dry-run --Werror $(SOURCES) src/*.h
+
+lint:
+	/opt/homebrew/opt/llvm/bin/clang-tidy $(SOURCES) -- $(CFLAGS)
+
+analyze:
+	clang --analyze $(CFLAGS) $(SOURCES)
+
+debug: CFLAGS += -g -DDEBUG
+debug: $(TARGET)
+
+release: CFLAGS += -O3 -DNDEBUG
+release: clean $(TARGET)
+
+.PHONY: all clean run format format-check lint analyze debug release

@@ -1,0 +1,6 @@
+CompileFlags:
+  Add: 
+    - -I/opt/homebrew/include
+    - -std=c99
+    - -Wall
+    - -Wextra

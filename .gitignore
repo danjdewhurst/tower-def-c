@@ -10,6 +10,9 @@ tower_defense
 *.idb
 *.pdb
 
+# Static analysis output
+*.plist
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -28,6 +31,14 @@ Desktop.ini
 .idea/
 *.swp
 *.swo
+*~
+
+# Keep language server config files
+!.clangd
+!compile_commands.json
+
+# Cache directories
+.cache/
 
 # Build directories
 build/
