@@ -31,7 +31,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y \
           build-essential \
-          clang-format \
           clang-tidy \
           clang \
           libasound2-dev \
@@ -43,7 +42,16 @@ jobs:
           libxcursor-dev \
           libxinerama-dev \
           cmake \
-          git
+          git \
+          wget
+    
+    - name: Install LLVM 21 for consistent clang-format
+      run: |
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        echo "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-21 main" | sudo tee /etc/apt/sources.list.d/llvm.list
+        sudo apt-get update
+        sudo apt-get install -y clang-format-21
+        sudo ln -sf /usr/bin/clang-format-21 /usr/bin/clang-format
     
     - name: Cache Raylib build
       id: cache-raylib
