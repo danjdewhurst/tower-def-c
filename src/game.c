@@ -223,6 +223,31 @@ void DrawGame(void) {
         }
     }
 
+    Vector2 mouse_pos = GetMousePosition();
+    Vector2 grid_pos = GetGridPosition(mouse_pos);
+
+    bool can_place = true;
+    for(int i = 0; i < game.path_length; i++) {
+        if(Vector2Distance(grid_pos, game.path[i]) < GRID_SIZE) {
+            can_place = false;
+            break;
+        }
+    }
+
+    for(int i = 0; i < MAX_TOWERS; i++) {
+        if(game.towers[i].active &&
+           Vector2Distance(grid_pos, game.towers[i].position) < GRID_SIZE) {
+            can_place = false;
+            break;
+        }
+    }
+
+    if(can_place && game.money >= 50) {
+        Color preview_color = (Color) {0, 0, 255, 80};
+        DrawCircleV(grid_pos, 15, preview_color);
+        DrawCircleLines((int) grid_pos.x, (int) grid_pos.y, 100, preview_color);
+    }
+
     for(int i = 0; i < MAX_ENEMIES; i++) {
         if(game.enemies[i].active) {
             DrawCircleV(game.enemies[i].position, 12, game.enemies[i].color);
