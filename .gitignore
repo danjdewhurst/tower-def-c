@@ -33,9 +33,10 @@ Desktop.ini
 *.swo
 *~
 
-# Keep language server config files
+# Keep language server config files and GitHub Actions
 !.clangd
 !compile_commands.json
+!.github/
 
 # Cache directories
 .cache/
