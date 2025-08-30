@@ -277,17 +277,22 @@ void DrawGame(void) {
         DrawLineEx(game.path[i - 1], game.path[i], 8, BROWN);
     }
 
+    Vector2 mouse_pos = GetMousePosition();
+    
     for(int i = 0; i < MAX_TOWERS; i++) {
         if(game.towers[i].active) {
             DrawCircleV(game.towers[i].position, 15, game.towers[i].color);
-            DrawCircleLines((int) game.towers[i].position.x,
-                            (int) game.towers[i].position.y,
-                            game.towers[i].range,
-                            LIGHTGRAY);
+            
+            // Only show range when hovering over the tower
+            if(Vector2Distance(mouse_pos, game.towers[i].position) < 20) {
+                DrawCircleLines((int) game.towers[i].position.x,
+                                (int) game.towers[i].position.y,
+                                game.towers[i].range,
+                                LIGHTGRAY);
+            }
         }
     }
 
-    Vector2 mouse_pos = GetMousePosition();
     Vector2 grid_pos = GetGridPosition(mouse_pos);
 
     bool can_place = true;
