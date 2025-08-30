@@ -23,10 +23,29 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y \
           build-essential \
-          libraylib-dev \
           clang-format \
           clang-tidy \
-          clang
+          clang \
+          libasound2-dev \
+          libx11-dev \
+          libxrandr-dev \
+          libxi-dev \
+          libgl1-mesa-dev \
+          libglu1-mesa-dev \
+          libxcursor-dev \
+          libxinerama-dev \
+          cmake \
+          git
+    
+    - name: Build and install Raylib
+      run: |
+        git clone https://github.com/raysan5/raylib.git
+        cd raylib
+        mkdir build && cd build
+        cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release ..
+        make -j$(nproc)
+        sudo make install
+        sudo ldconfig
     
     - name: Check code formatting
       run: |
@@ -42,7 +61,7 @@ jobs:
       run: |
         echo "Building project..."
         make clean
-        if ! make; then
+        if ! make CFLAGS="-Wall -Wextra -std=c99 -O2" LIBS="-lraylib -lm"; then
           echo "❌ Build failed"
           exit 1
         fi
@@ -71,12 +90,12 @@ jobs:
       run: |
         echo "Testing debug build..."
         make clean
-        make debug
+        make debug CFLAGS="-Wall -Wextra -std=c99 -g -DDEBUG" LIBS="-lraylib -lm"
         echo "✅ Debug build successful"
         
         echo "Testing release build..."
         make clean  
-        make release
+        make release CFLAGS="-Wall -Wextra -std=c99 -O3 -DNDEBUG" LIBS="-lraylib -lm"
         echo "✅ Release build successful"
     
     - name: Verify CI script works
