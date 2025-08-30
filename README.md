@@ -1,30 +1,44 @@
-# Tower Defense Game
+# 🏰 Tower Defense Game
 
-A basic tower defense game written in C using the Raylib graphics library with professional development tooling.
+[![CI](https://github.com/danjdewhurst/tower-def-c/actions/workflows/ci.yml/badge.svg)](https://github.com/danjdewhurst/tower-def-c/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C99](https://img.shields.io/badge/C-99-blue.svg)](https://en.wikipedia.org/wiki/C99)
+[![Raylib](https://img.shields.io/badge/Raylib-5.5+-green.svg)](https://www.raylib.com/)
 
-## Features
+> **🎓 Educational Project**: This is a learning project focused on mastering the fundamentals of C programming and Raylib game development. It demonstrates professional development practices while keeping the code simple and educational.
 
-- Grid-based tower placement system
-- Enemy pathfinding along predefined routes
-- Automatic tower targeting and projectile physics
-- Health bars and damage system
-- Economy mechanics (money and lives)
-- Professional code quality tools
+A basic tower defense game written in C using the Raylib graphics library, featuring modern development tooling and best practices for learning C game development.
 
-## Prerequisites
+## ✨ Features
 
-- **GCC compiler** (or Clang)
-- **Raylib graphics library**
-- **Homebrew** (macOS) or package manager of choice
+### 🎮 Game Mechanics
+- **🎯 Grid-based tower placement** - Strategic positioning system
+- **🛤️ Enemy pathfinding** - Smooth movement along predefined routes  
+- **⚡ Automatic targeting** - Towers track and shoot at enemies
+- **💗 Health & damage system** - Visual health bars and combat mechanics
+- **💰 Economy gameplay** - Money management and resource allocation
 
-## Quick Start
+### 🛠️ Development Features
+- **📊 Professional code quality tools** (formatting, linting, static analysis)
+- **🔄 Continuous integration** with GitHub Actions
+- **🧪 Comprehensive build system** (debug/release configurations)
+- **🔧 IDE integration** with language server support
+- **📚 Educational codebase** designed for learning C fundamentals
 
-### Automated Setup (macOS)
+## 📋 Prerequisites
+
+- **🔧 GCC compiler** (or Clang)
+- **🎨 Raylib graphics library** 
+- **📦 Package manager** (Homebrew for macOS, apt for Linux)
+
+## 🚀 Quick Start
+
+### 🍎 Automated Setup (macOS)
 ```bash
 ./scripts/dev-setup.sh
 ```
 
-### Manual Installation
+### 🔧 Manual Installation
 
 #### macOS
 ```bash
@@ -32,71 +46,85 @@ brew install raylib clang-format llvm
 ```
 
 #### Linux (Ubuntu/Debian)
+> **⚠️ Note**: On Linux, Raylib will be built from source by the CI system. For local development, you may need to build Raylib manually.
+
 ```bash
 sudo apt update
-sudo apt install libraylib-dev clang-format clang-tidy build-essential
+sudo apt install build-essential clang-format clang-tidy cmake git
+sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
+
+# Build Raylib from source
+git clone https://github.com/raysan5/raylib.git
+cd raylib && mkdir build && cd build
+cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc) && sudo make install && sudo ldconfig
 ```
 
-## Building and Running
+## 🔨 Building and Running
 
 ```bash
-# Build and run the game
+# 🎮 Build and run the game
 make run
 
-# Build only
+# 🔨 Build only  
 make
 
-# Clean build files
+# 🧹 Clean build files
 make clean
 
-# Debug build (with symbols)
+# 🐛 Debug build (with symbols)
 make debug
 
-# Optimized release build
+# 🚀 Optimized release build
 make release
 ```
 
-## Development Tools
+## 🧰 Development Tools
 
-### Code Quality
+### 📝 Code Quality
 ```bash
-# Format all source files
+# ✨ Format all source files
 make format
 
-# Check formatting without changing files
-make format-check
+# 🔍 Check formatting without changes
+make format-check  
 
-# Run linter for code analysis
+# 🔬 Run linter for code analysis
 make lint
 
-# Run static analysis
+# 🔎 Run static analysis
 make analyze
 ```
 
-### Automated Quality Checks
+### 🤖 Automated Quality Checks
 ```bash
-# Run complete CI pipeline
+# 🚦 Run complete CI pipeline locally
 ./scripts/ci-check.sh
 ```
 
-This script performs:
-- ✅ Code formatting verification
-- ✅ Build validation
-- ✅ Static analysis
-- ✅ Linting (if available)
+**This script performs:**
+- ✅ **Code formatting verification** - Ensures consistent style
+- ✅ **Build validation** - Tests compilation success  
+- ✅ **Static analysis** - Finds potential bugs and issues
+- ✅ **Linting** - Advanced code quality checks (if available)
 
-## Game Controls
+## 🎮 Game Controls
 
-- **Left Click**: Place tower ($50)
-- **ESC/Close Window**: Quit game
+| Control | Action |
+|---------|--------|
+| **🖱️ Left Click** | Place tower ($50) |
+| **⌨️ ESC/Close Window** | Quit game |
 
-## Game Mechanics
+## ⚖️ Game Mechanics
 
-- Start with **$100** and **20 lives**
-- Towers cost **$50** each
-- Earn **$10** for each enemy eliminated
-- Lose **1 life** when an enemy reaches the end
-- Game over when lives reach 0
+| Element | Details |
+|---------|---------|
+| **💰 Starting Money** | $100 |
+| **💗 Starting Lives** | 20 |
+| **🏗️ Tower Cost** | $50 each |
+| **💵 Enemy Reward** | $10 per kill |
+| **💀 Life Loss** | 1 life per enemy reaching the end |
+| **🔚 Game Over** | When lives reach 0 |
 
 ## Development Environment
 
@@ -132,14 +160,54 @@ tower-def-c/
 └── .gitignore              # Version control ignore rules
 ```
 
-## Contributing
+## 📚 Learning Objectives
 
-1. Format code: `make format`
-2. Run quality checks: `./scripts/ci-check.sh`
-3. Ensure all checks pass before committing
+This project is designed to teach:
 
-## Dependencies
+- **🔤 C Programming Fundamentals** - Structs, arrays, functions, memory management
+- **🎮 Game Development Basics** - Game loops, entity systems, collision detection
+- **📐 Raylib Graphics Library** - 2D rendering, input handling, window management
+- **🛠️ Professional Development Practices** - Code formatting, static analysis, CI/CD
+- **🏗️ Build Systems** - Makefiles, compiler flags, linking libraries
+- **🔧 Development Environment Setup** - IDE integration, debugging tools
 
-- **Runtime**: Raylib 5.5+, Math library
-- **Build**: GCC/Clang, Make
-- **Development**: clang-format, clang-tidy, LLVM tools
+## 🤝 Contributing
+
+> **📝 Note**: This is primarily an educational project focused on learning C and Raylib fundamentals. While the code is open source, **contributions are not actively sought at this time** as the project serves as a learning exercise.
+
+**If you're using this project to learn:**
+1. **🍴 Fork the repository** and experiment with your own modifications
+2. **📝 Follow the code quality practices** demonstrated here
+3. **🔨 Use the provided tools** to maintain code standards
+
+**For code quality (if making changes):**
+```bash
+# ✨ Format your code
+make format
+
+# 🚦 Run quality checks  
+./scripts/ci-check.sh
+
+# ✅ Ensure all checks pass before committing
+```
+
+## 📦 Dependencies
+
+| Category | Tools | Purpose |
+|----------|--------|---------|
+| **🏃 Runtime** | Raylib 5.5+, Math library | Graphics, input, game functionality |
+| **🔨 Build** | GCC/Clang, Make | Compilation and linking |
+| **🧰 Development** | clang-format, clang-tidy, LLVM | Code quality and analysis |
+| **🔄 CI/CD** | GitHub Actions | Automated testing and validation |
+
+---
+
+<div align="center">
+
+**🎓 Happy Learning!** 
+
+*This project demonstrates professional C development practices while keeping the code educational and approachable.*
+
+[![Made with ❤️ for learning C](https://img.shields.io/badge/Made%20with%20❤️%20for-Learning%20C-red.svg)](https://github.com/danjdewhurst/tower-def-c)
+
+</div>
